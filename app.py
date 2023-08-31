@@ -1,20 +1,17 @@
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, emit
+from flask import Flask, request
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '12345'
-socketio = SocketIO(app)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/upload-paper', methods=['POST'])
+def upload_paper():
+    paper_data = request.form
+    # Process the paper data and save it to a text file
+    with open('received_data.txt', 'a') as f:
+        f.write(str(paper_data) + '\n')
+    return 'Data received and processed successfully.'
 
-@socketio.on('paper_uploaded')
-def handle_paper_upload(data):
-    # Here you can save the data to your computer
-    # For demonstration, print the data
-    print("Received paper data:", data)
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
 
 
 
