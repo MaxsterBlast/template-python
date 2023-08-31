@@ -1,60 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Paper Due Dates</title>
-   <style>
-       .column {
-           float: left;
-           width: 50%;
-       }
-   </style>
+    <title>Paper Due Dates</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
 </head>
 <body>
-   <h1>Enter Paper Details</h1>
-   <form action="/submit" method="post">
-       <label for="subject">Subject:</label>
-       <input type="text" name="subject" required><br>
-       <label for="due_date">Due Date:</label>
-       <input type="date" name="due_date" required><br>
-       <label for="style">Style:</label>
-       <input type="text" name="style" required><br>
-       <label for="difficulty">Difficulty:</label>
-       <input type="text" name="difficulty" required><br>
-       <input type="submit" value="Submit">
-   </form>
-   <div class="column">
-       <h2>Paper List by Date</h2>
-       <ul>
-           {% for paper in papers %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
-   <div class="column">
-       <h2>Paper List by Difficulty</h2>
-       <ul>
-           {% for paper in papers_by_difficulty %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
+
+<h1>Enter Paper Details</h1>
+
+<form id="paper-form" action="/" method="post">
+    <label for="subject">Subject:</label>
+    <input type="text" name="subject" required><br>
+    <label for="due_date">Due Date:</label>
+    <input type="date" name="due_date" required><br>
+    <label for="style">Style:</label>
+    <input type="text" name="style" required><br>
+    <label for="difficulty">Difficulty:</label>
+    <input type="text" name="difficulty" required><br>
+    <input type="hidden" name="action" value="add">
+    <input type="submit" value="Submit" onclick="uploadPaper()">
+</form>
+
+<script type="text/javascript">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    function uploadPaper() {
+        var form = document.getElementById('paper-form');
+        var formData = new FormData(form);
+        var paperData = {};
+        formData.forEach(function(value, key) {
+            paperData[key] = value;
+        });
+        socket.emit('paper_uploaded', paperData);
+    }
+</script>
+
 </body>
 </html>
