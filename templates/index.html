@@ -57,14 +57,26 @@
     <div class="container">
         <h1>Enter Paper Details</h1>
         <form action="/" method="post">
-            <!-- Form inputs go here -->
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" required><br>
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date" required><br>
+            <label for="style">Style:</label>
+            <input type="text" name="style" required><br>
+            <label for="difficulty">Difficulty:</label>
+            <input type="text" name="difficulty" required><br>
+            <input type="hidden" name="action" value="add">
+            <input type="submit" value="Submit">
         </form>
 
         <h2>Paper List</h2>
         <ul>
             {% for paper in papers %}
             <li>
-                <!-- Paper details go here -->
+                <strong>{{ paper['subject'] }}</strong><br>
+                Due: {{ paper['due_date'] }}<br>
+                Style: {{ paper['style'] }}<br>
+                Difficulty: {{ paper['difficulty'] }}<br>
                 <form action="/" method="post">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="index" value="{{ loop.index - 1 }}">
