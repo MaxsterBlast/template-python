@@ -1,59 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Paper Due Dates</title>
-   <style>
-       .column {
-           float: left;
-           width: 50%;
-       }
-   </style>
+    <title>Paper Due Dates</title>
+    <style>
+        body {
+            background-color: #F0F0F0; /* Light Gray */
+            color: #333333; /* Dark Gray */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF; /* White */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #DDDDDD; /* Light Gray */
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background-color: #333333; /* Dark Gray */
+            color: #FFFFFF; /* White */
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #555555; /* Slightly Darker Gray */
+        }
+    </style>
 </head>
 <body>
-   <h1>Enter Paper Details</h1>
-   <form action="/submit" method="post">
-       <label for="subject">Subject:</label>
-       <input type="text" name="subject" required><br>
-       <label for="due_date">Due Date:</label>
-       <input type="date" name="due_date" required><br>
-       <label for="style">Style:</label>
-       <input type="text" name="style" required><br>
-       <label for="difficulty">Difficulty:</label>
-       <input type="text" name="difficulty" required><br>
-       <input type="submit" value="Submit">
-   </form>
-   <div class="column">
-       <h2>Paper List by Date</h2>
-       <ul>
-           {% for paper in papers %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
-   <div class="column">
-       <h2>Paper List by Difficulty</h2>
-       <ul>
-           {% for paper in papers_by_difficulty %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
+    <div class="container">
+        <h1>Enter Paper Details</h1>
+        <form action="/" method="post">
+            <!-- Form inputs go here -->
+        </form>
+
+        <h2>Paper List</h2>
+        <ul>
+            {% for paper in papers %}
+            <li>
+                <!-- Paper details go here -->
+                <form action="/" method="post">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="index" value="{{ loop.index - 1 }}">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
+</html>
