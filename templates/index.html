@@ -86,6 +86,7 @@
                <div class="paper {% if paper.completed %}completed{% endif %}">
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
+                   <a href="/delete/{{ loop.index0 }}">[Delete]</a>
                </div>
                {% endfor %}
            </div>
@@ -95,6 +96,7 @@
                <div class="paper {% if paper.completed %}completed{% endif %}">
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
+                   <a href="/delete/{{ loop.index0 }}">[Delete]</a>
                </div>
                {% endfor %}
            </div>
