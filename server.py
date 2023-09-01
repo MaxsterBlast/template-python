@@ -2,10 +2,8 @@ from flask import Flask, render_template, request, redirect
 import json
 
 app = Flask(__name__)
-papers = []
 
-# Define a mapping of difficulty levels to values for sorting
-difficulty_mapping = {'Hard': 3, 'Moderate': 2, 'Easy': 1}
+papers = []
 
 def save_data():
     with open('data.json', 'w') as f:
@@ -18,6 +16,12 @@ def load_data():
     except FileNotFoundError:
         return []
 
+@app.route('/')
+def index():
+    sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
+    sorted_by_difficulty = sorted(papers, key=lambda x: x['difficulty'])
+
+    return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -31,12 +35,7 @@ def submit():
     papers.append(paper)
     save_data()
     return redirect('/')
-@app.route('/')
-def index():
-    sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
-    sorted_by_difficulty = sorted(papers, key=lambda x: difficulty_mapping[x['difficulty']], reverse=True)
 
-    return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 @app.route('/delete/<int:index>')
 def delete(index):
     papers.pop(index)
@@ -46,3 +45,4 @@ def delete(index):
 if __name__ == '__main__':
     papers = load_data()
     app.run(port=5000)
+
