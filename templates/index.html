@@ -4,65 +4,101 @@
    <title>Paper Due Dates</title>
    <style>
        body {
-           background-color: black;
-           color: grey;
+           font-family: Arial, sans-serif;
+           background-color: #f5f5f5;
+           margin: 0;
+           padding: 0;
+       }
+       .container {
+           max-width: 800px;
+           margin: 0 auto;
+           padding: 20px;
+           background-color: white;
+           border-radius: 5px;
+           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+       }
+       h1 {
            text-align: center;
        }
-
+       form {
+           text-align: center;
+       }
+       form label {
+           display: block;
+           margin-bottom: 10px;
+       }
+       form input[type="text"],
+       form input[type="date"] {
+           width: 100%;
+           padding: 10px;
+           margin-bottom: 10px;
+           border: 1px solid #ccc;
+           border-radius: 3px;
+       }
+       form input[type="submit"] {
+           background-color: #007BFF;
+           color: white;
+           border: none;
+           padding: 10px 20px;
+           cursor: pointer;
+       }
+       .columns {
+           display: flex;
+           justify-content: space-between;
+       }
        .column {
-           display: inline-block;
-           width: 45%;
-           vertical-align: top;
-           margin: 10px;
+           flex: 1;
+           padding: 20px;
+       }
+       .column h2 {
+           margin-bottom: 10px;
+       }
+       .paper {
+           margin-bottom: 20px;
+           padding: 10px;
+           border: 1px solid #ccc;
+           border-radius: 3px;
+       }
+       .completed {
+           text-decoration: line-through;
+           color: #ccc;
        }
    </style>
 </head>
 <body>
-   <h1>Enter Paper Details</h1>
-   <form action="/submit" method="post">
-       <label for="subject">Subject:</label>
-       <input type="text" name="subject" required><br>
-       <label for="due_date">Due Date:</label>
-       <input type="date" name="due_date" required><br>
-       <label for="style">Style:</label>
-       <input type="text" name="style" required><br>
-       <label for="difficulty">Difficulty:</label>
-       <input type="text" name="difficulty" required><br>
-       <input type="submit" value="Submit">
-   </form>
-   <div class="column">
-       <h2>Paper List by Date</h2>
-       <ul>
-           {% for paper in papers %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
-   <div class="column">
-       <h2>Paper List by Difficulty</h2>
-       <ul>
-           {% for paper in papers_by_difficulty %}
-           <li>
-               {% if paper.completed %}
-               <del>{{ paper.subject }} - Due: {{ paper.due_date }}</del>
-               {% else %}
-               {{ paper.subject }} - Due: {{ paper.due_date }}
-               {% endif %}
-               <a href="/delete/{{ loop.index0 }}">[Delete]</a>
-               <br>
-               Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }}
-           </li>
-           {% endfor %}
-       </ul>
+   <div class="container">
+       <h1>Enter Paper Details</h1>
+       <form action="/submit" method="post">
+           <label for="subject">Subject:</label>
+           <input type="text" name="subject" required><br>
+           <label for="due_date">Due Date:</label>
+           <input type="date" name="due_date" required><br>
+           <label for="style">Style:</label>
+           <input type="text" name="style" required><br>
+           <label for="difficulty">Difficulty (1-10):</label>
+           <input type="number" name="difficulty" min="1" max="10" required><br>
+           <input type="submit" value="Submit">
+       </form>
+       <div class="columns">
+           <div class="column">
+               <h2>Paper List by Date</h2>
+               {% for paper in papers %}
+               <div class="paper {% if paper.completed %}completed{% endif %}">
+                   {{ paper.subject }} - Due: {{ paper.due_date }}<br>
+                   Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
+               </div>
+               {% endfor %}
+           </div>
+           <div class="column">
+               <h2>Paper List by Difficulty</h2>
+               {% for paper in papers_by_difficulty %}
+               <div class="paper {% if paper.completed %}completed{% endif %}">
+                   {{ paper.subject }} - Due: {{ paper.due_date }}<br>
+                   Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
+               </div>
+               {% endfor %}
+           </div>
+       </div>
    </div>
 </body>
 </html>
