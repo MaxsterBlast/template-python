@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, redirect
 import json
 
 app = Flask(__name__)
-
 papers = []
+
+# Define a mapping of difficulty levels to values for sorting
+difficulty_mapping = {'hard': 3, 'moderate': 2, 'easy': 1}
 
 def save_data():
     with open('data.json', 'w') as f:
@@ -19,7 +21,7 @@ def load_data():
 @app.route('/')
 def index():
     sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
-    sorted_by_difficulty = sorted(papers, key=lambda x: x['difficulty'], reverse=True)
+    sorted_by_difficulty = sorted(papers, key=lambda x: difficulty_mapping[x['difficulty']], reverse=True)
 
     return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 
