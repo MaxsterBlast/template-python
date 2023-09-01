@@ -86,6 +86,7 @@
                <h2>Paper List by Date</h2>
                {% for paper in papers %}
                <div class="paper {% if paper.completed %}completed{% endif %}">
+                   <strong>Project: {{ paper.project }}</strong><br>
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
                    <a href="/delete/{{ loop.index0 }}">[Delete]</a>
@@ -96,6 +97,7 @@
                <h2>Paper List by Difficulty</h2>
                {% for paper in papers_by_difficulty %}
                <div class="paper {% if paper.completed %}completed{% endif %}">
+                   <strong>Project: {{ paper.project }}</strong><br>
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
                    <a href="/delete/{{ loop.index0 }}">[Delete]</a>
