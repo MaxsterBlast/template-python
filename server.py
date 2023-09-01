@@ -18,12 +18,6 @@ def load_data():
     except FileNotFoundError:
         return []
 
-@app.route('/')
-def index():
-    sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
-    sorted_by_difficulty = sorted(papers, key=lambda x: difficulty_mapping[x['difficulty']], reverse=True)
-
-    return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -37,7 +31,12 @@ def submit():
     papers.append(paper)
     save_data()
     return redirect('/')
+@app.route('/')
+def index():
+    sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
+    sorted_by_difficulty = sorted(papers, key=lambda x: difficulty_mapping[x['difficulty']], reverse=True)
 
+    return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 @app.route('/delete/<int:index>')
 def delete(index):
     papers.pop(index)
