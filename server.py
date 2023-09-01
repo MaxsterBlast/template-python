@@ -19,7 +19,7 @@ def load_data():
 @app.route('/')
 def index():
     sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
-    sorted_by_difficulty = sorted(papers, key=lambda x: x['difficulty'])
+    sorted_by_difficulty = sorted(papers, key=lambda x: x['difficulty'], reverse=True)
 
     return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 
