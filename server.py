@@ -5,7 +5,7 @@ app = Flask(__name__)
 papers = []
 
 # Define a mapping of difficulty levels to values for sorting
-difficulty_mapping = {'hard': 2, 'moderate': 3, 'easy': 1}
+difficulty_mapping = {'Hard': 3, 'Moderate': 2, 'Easy': 1}
 
 def save_data():
     with open('data.json', 'w') as f:
