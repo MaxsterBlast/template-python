@@ -23,9 +23,6 @@ def index():
 
     return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
 
-@app.route('/calendar')
-def calendar():
-    return render_template('calendar.html', papers=papers)
 
 @app.route('/submit', methods=['POST'])
 def submit():
