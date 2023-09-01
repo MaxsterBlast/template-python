@@ -27,6 +27,7 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     paper = {
+        'project': request.form['project'],
         'subject': request.form['subject'],
         'due_date': request.form['due_date'],
         'style': request.form['style'],
