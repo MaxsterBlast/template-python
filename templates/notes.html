@@ -3,10 +3,17 @@
 <html>
 <head>
     <title>Note Taking Page</title>
-    <!-- Add any CSS or scripts for your note-taking page here -->
+    <!-- Add any CSS or styles here -->
 </head>
 <body>
-    <h1>Note Taking Page</h1>
-    <!-- Add your note-taking content here -->
+    <div class="container">
+        <h1>Note Taking Page</h1>
+        <textarea id="note-input" rows="5" placeholder="Type your notes here..."></textarea>
+        <button id="save-button">Save Note</button>
+        <div id="note-list">
+            <!-- Saved notes will be displayed here -->
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='notes.js') }}"></script>
 </body>
 </html>
