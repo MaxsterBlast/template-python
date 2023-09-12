@@ -96,7 +96,7 @@
                    <strong>Project: {{ paper.project }}</strong><br>
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
-                   <a href="/delete/{{ loop.index0 }}">[Delete]</a>
+                   <a href="/delete/{{ loop.index0 }}">[Complete]</a>
                </div>
                {% endfor %}
            </div>
@@ -107,10 +107,12 @@
                    <strong>Project: {{ paper.project }}</strong><br>
                    {{ paper.subject }} - Due: {{ paper.due_date }}<br>
                    Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
-                   <a href="/delete/{{ loop.index0 }}">[Delete]</a>
+                   <a href="/delete/{{ loop.index0 }}">[Complete]</a>
                </div>
                {% endfor %}
            </div>
+       <div style="text-align: center; margin-top: 20px;">
+           <a href="/notes" style="color: #007BFF; text-decoration: none;">Go to Note Taking Page</a>
        </div>
    </div>
 </body>
