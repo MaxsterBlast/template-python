@@ -1,51 +1,21 @@
-from flask import Flask, render_template, request, redirect
-import json
+from flask import Flask, render_template, request
+from citation_formatter import CitationFormatter
 
 app = Flask(__name__)
+formatter = CitationFormatter()
 
-papers = []
-
-def save_data():
-    with open('data.json', 'w') as f:
-        json.dump(papers, f)
-
-def load_data():
-    try:
-        with open('data.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    sorted_by_date = sorted(papers, key=lambda x: x['due_date'])
-    sorted_by_difficulty = sorted(papers, key=lambda x: x['difficulty'], reverse=True)
+    citation = None
+    if request.method == 'POST':
+        website_url = request.form['website_url']
+        website_title, website_authors = formatter.get_website_info(website_url)
 
-    return render_template('index.html', papers=sorted_by_date, papers_by_difficulty=sorted_by_difficulty)
+        if website_title:
+            access_date = "November 9, 2023"  # Replace with the actual access date
+            citation = formatter.format_website_citation(website_title, website_authors, website_url, access_date)
 
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    paper = {
-        'project': request.form['project'],
-        'subject': request.form['subject'],
-        'due_date': request.form['due_date'],
-        'style': request.form['style'],
-        'difficulty': request.form['difficulty'],
-        'completed': False
-    }
-    papers.append(paper)
-    save_data()
-    return redirect('/')
-
-@app.route('/delete/<int:index>')
-def delete(index):
-    papers.pop(index)
-    save_data()
-    return redirect('/')
-    
+    return render_template('index.html', citation=citation)
 
 if __name__ == '__main__':
-    papers = load_data()
-    app.run(port=5000)
-
+    app.run(debug=True)
