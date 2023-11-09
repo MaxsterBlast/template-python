@@ -1,117 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Smoggle Calendar</title>
-   <style>
-       body {
-           font-family: Arial, sans-serif;
-           background-color: #121212; /* Dark background color */
-           color: white; /* Text color */
-           margin: 0;
-           padding: 0;
-       }
-       .container {
-           max-width: 800px;
-           margin: 0 auto;
-           padding: 20px;
-           background-color: #1E1E1E; /* Dark container background color */
-           border-radius: 5px;
-           box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-       }
-       h1 {
-           text-align: center;
-           color: #007BFF; /* Highlight color */
-       }
-       form {
-           text-align: center;
-       }
-       form label {
-           display: block;
-           margin-bottom: 10px;
-       }
-       form input[type="text"],
-       form input[type="date"],
-       form input[type="number"] {
-           width: 100%;
-           padding: 10px;
-           margin-bottom: 10px;
-           border: 1px solid #ccc;
-           border-radius: 3px;
-           background-color: #2E2E2E; /* Input background color */
-           color: white; /* Input text color */
-       }
-       form input[type="submit"] {
-           background-color: #007BFF;
-           color: white;
-           border: none;
-           padding: 10px 20px;
-           cursor: pointer;
-       }
-       .columns {
-           display: flex;
-           justify-content: space-between;
-       }
-       .column {
-           flex: 1;
-           padding: 20px;
-       }
-       .column h2 {
-           margin-bottom: 10px;
-       }
-       .paper {
-           margin-bottom: 20px;
-           padding: 10px;
-           border: 1px solid #ccc;
-           border-radius: 3px;
-           background-color: #2E2E2E; /* Paper background color */
-           color: white; /* Paper text color */
-       }
-       .completed {
-           text-decoration: line-through;
-           color: #ccc;
-       }
-   </style>
+    <title>Citation Formatter</title>
 </head>
 <body>
-   <div class="container">
-       <h1>Smoggle Calendar</h1>
-       <form action="/submit" method="post">
-           <label for="project">Project Name:</label>
-           <input type="text" name="project" required><br>
-           <label for="subject">Subject:</label>
-           <input type="text" name="subject" required><br>
-           <label for="due_date">Due Date:</label>
-           <input type="date" name="due_date" required><br>
-           <label for="style">Style:</label>
-           <input type="text" name="style" required><br>
-           <label for="difficulty">Difficulty (1-10):</label>
-           <input type="number" name="difficulty" min="1" max="10" required><br>
-           <input type="submit" value="Submit">
-       </form>
-       <div class="columns">
-           <div class="column">
-               <h2>Paper List by Date</h2>
-               {% for paper in papers %}
-               <div class="paper {% if paper.completed %}completed{% endif %}">
-                   <strong>Project: {{ paper.project }}</strong><br>
-                   {{ paper.subject }} - Due: {{ paper.due_date }}<br>
-                   Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
-                   <a href="/delete/{{ loop.index0 }}">[Complete]</a>
-               </div>
-               {% endfor %}
-           </div>
-           <div class="column">
-               <h2>Paper List by Difficulty</h2>
-               {% for paper in papers_by_difficulty %}
-               <div class="paper {% if paper.completed %}completed{% endif %}">
-                   <strong>Project: {{ paper.project }}</strong><br>
-                   {{ paper.subject }} - Due: {{ paper.due_date }}<br>
-                   Style: {{ paper.style }} | Difficulty: {{ paper.difficulty }} / 10
-                   <a href="/delete/{{ loop.index0 }}">[Complete]</a>
-               </div>
-               {% endfor %}
-           </div>
-       </div>
-   </div>
+    <h1>Citation Formatter</h1>
+    <form method="POST">
+        <label for="website_url">Enter the website URL:</label>
+        <input type="text" name="website_url" required>
+        <button type="submit">Generate Citation</button>
+    </form>
+    {% if citation %}
+        <h2>Citation:</h2>
+        <p>{{ citation }}</p>
+    {% endif %}
 </body>
 </html>
