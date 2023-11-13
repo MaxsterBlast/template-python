@@ -153,8 +153,12 @@
         <label for="website_urls">Enter the website URLs (separated by newlines):</label>
         <textarea name="website_urls" id="website_urls" rows="4" required></textarea>
         <br>
+        <label for="access_date">Enter the access date:</label>
+        <input type="text" name="access_date" id="access_date" required>
+        <br>
         <input type="submit" value="Format Citations">
     </form>
+    
     {% if citations %}
         <h2>Citations:</h2>
         <ul>
