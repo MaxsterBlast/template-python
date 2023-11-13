@@ -55,6 +55,8 @@ class CitationFormatter:
 def index():
     if request.method == 'POST':
         website_urls_input = request.form.get('website_urls')
+        access_date = request.form.get('access_date')
+        
         if website_urls_input:
             website_urls = website_urls_input.split('\n')
             formatter = CitationFormatter()
@@ -66,7 +68,9 @@ def index():
                     website_title, website_authors, publication_date = formatter.get_website_info(website_url)
 
                     if website_title:
-                        access_date = "November 9, 2023"  # You can replace this with the actual access date
+                        if not access_date:
+                            access_date = "November 9, 2023"  # Default access date if not provided
+                            
                         website_citation = formatter.format_website_citation(website_title, website_authors, website_url, access_date, publication_date)
                         citations.append(website_citation)
                     else:
