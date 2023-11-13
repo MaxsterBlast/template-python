@@ -1,168 +1,25 @@
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        text-align: center;
-        padding: 20px;
-        margin: 0;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    body.light-mode {
-        background-color: #f4f4f4;
-        color: #333;
-    }
-
-    body.dark-mode {
-        background-color: #333;
-        color: #fff;
-    }
-
-    h1, h2, label, span, footer {
-        color: inherit;
-    }
-
-    form {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease;
-    }
-
-    form.dark-mode {
-        background-color: #444;
-    }
-
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical;
-        color: #333;
-        background-color: #fff;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    body.dark-mode textarea {
-        color: #fff;
-        background-color: #333;
-    }
-
-    input[type="submit"] {
-        background-color: #4caf50;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #45a049;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-    footer {
-        margin-top: 20px;
-        color: #666;
-    }
-
-    .theme-switch {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        cursor: pointer;
-    }
-
-    .theme-switch input {
-        display: none;
-    }
-
-    .theme-switch-label {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .theme-switch-label span {
-        margin-right: 5px;
-    }
-
-    .theme-switch-slider {
-        width: 40px;
-        height: 20px;
-        background-color: #ccc;
-        border-radius: 10px;
-        position: relative;
-        margin-left: 10px;
-        cursor: pointer;
-    }
-
-    .theme-switch-slider:before {
-        content: '';
-        width: 18px;
-        height: 18px;
-        background-color: #fff;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 2px;
-        transition: transform 0.3s ease;
-    }
-
-    .theme-switch input:checked + .theme-switch-label .theme-switch-slider:before {
-        transform: translate(100%, -50%);
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Citation Formatter</title>
 </head>
 <body>
-    <div class="theme-switch">
-        <label class="theme-switch-label" for="theme-switch">
-            <span>Light</span>
-            <input type="checkbox" id="theme-switch" />
-            <div class="theme-switch-slider"></div>
-            <span>Dark</span>
-        </label>
+    <div style="text-align: center; margin-top: 50px;">
+        <h1>Website Citation Formatter</h1>
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <form method="post" action="/">
+            <label for="website_urls">Enter the website URL(s) (separated by newlines):</label><br>
+            <textarea name="website_urls" rows="4" cols="50"></textarea><br>
+            <input type="submit" value="Format Citations">
+        </form>
+        {% if website_citation %}
+            <h2>Citation:</h2>
+            <p>{{ website_citation }}</p>
+        {% endif %}
     </div>
-
-    <script>
-        const themeSwitch = document.getElementById('theme-switch');
-        const body = document.body;
-
-        themeSwitch.addEventListener('change', () => {
-            body.classList.toggle('dark-mode', themeSwitch.checked);
-        });
-    </script>
-
-    <h1>Website Citation Formatter</h1>
-    <form method="POST">
-        <label for="website_urls">Enter the website URLs (separated by newlines):</label>
-        <textarea name="website_urls" id="website_urls" rows="4" required></textarea>
-        <br>
-        <input type="submit" value="Format Citations">
-    </form>
-    {% if citations %}
-        <h2>Citations:</h2>
-        <ul>
-            {% for citation in citations %}
-                <li>{{ citation }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <footer>&copy; 2023 Website Citation Formatter Made By Maxwell</footer>
 </body>
 </html>
